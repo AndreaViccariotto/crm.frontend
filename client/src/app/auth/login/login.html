@@ -1,0 +1,33 @@
+<div class="auth-page">
+
+  <div class="auth-card">
+
+    <div class="auth-header">
+      <p>Accedi al tuo account per continuare</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
+
+      <div class="field">
+        <label>Username</label>
+        <input type="text" formControlName="username" />
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="••••••••" />
+      </div>
+
+      <button type="submit" class="btn-primary">
+        Login
+      </button>
+
+    </form>
+
+    <div class="auth-footer">
+      <span class="muted">Problemi di accesso?</span>
+    </div>
+
+  </div>
+
+</div>

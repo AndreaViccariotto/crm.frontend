@@ -1,0 +1,12 @@
+<div class="layout" [class.open]="isSidebarOpen">
+
+  <app-sidebar (toggle)="onSidebarToggle($event)"></app-sidebar>
+
+  <main class="content">
+
+    <section class="page">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+
+</div>

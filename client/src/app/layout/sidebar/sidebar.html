@@ -1,0 +1,10 @@
+<div class="sidebar" [class.open]="isOpen">
+  <button class="hamburger" (click)="toggleSidebar()">☰</button>
+
+  <nav class="menu">
+    <a *ngFor="let item of menu" [routerLink]="item.route">
+      <i [ngClass]="item.icon"></i>
+      <span *ngIf="isOpen">{{ item.name }}</span>
+    </a>
+  </nav>
+</div>

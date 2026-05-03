@@ -1,0 +1,124 @@
+<div class="container calendar-page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div class="page-title">
+      <h2>Calendario</h2>
+      <p>Gestione eventi e pianificazione</p>
+    </div>
+
+    <button mat-flat-button class="btn btn-primary" (click)="addEvent()">
+      + Nuovo evento
+    </button>
+
+  </div>
+
+  <!-- TOOLBAR -->
+  <form class="toolbar" [formGroup]="filterForm">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Assegnato a</mat-label>
+      <mat-select formControlName="user_id">
+
+        <mat-option [value]="0">Tutti</mat-option>
+
+        <mat-option *ngFor="let user of users" [value]="user.id">
+          {{ user.username }}
+        </mat-option>
+
+      </mat-select>
+    </mat-form-field>
+
+    <div class="toolbar-actions">
+      <button mat-flat-button class="btn btn-primary" (click)="applyFilter()">
+        Filtra
+      </button>
+
+      <button mat-stroked-button class="btn btn-ghost" (click)="resetFilter()">
+        Reset
+      </button>
+    </div>
+
+  </form>
+
+  <!-- CONTENT -->
+  <div class="calendar-layout">
+
+    <!-- CALENDAR -->
+    <div class="card calendar-panel">
+      <mat-calendar
+        [(selected)]="selectedDate"
+        (selectedChange)="onDateChange($event)">
+      </mat-calendar>
+    </div>
+
+    <!-- EVENTS -->
+    <div class="card events-panel">
+
+      <!-- HEADER -->
+      <div class="events-header">
+
+        <div>
+          <h3>{{ selectedDate | date:'fullDate' }}</h3>
+          <span class="muted">
+            {{ events.length }} eventi
+          </span>
+        </div>
+
+      </div>
+
+      <!-- LIST -->
+      <div *ngIf="events.length; else emptyState" class="event-list">
+
+        <div *ngFor="let event of events" class="event-card">
+
+          <div class="event-time">
+            {{ event.time || '--:--' }}
+          </div>
+
+          <div class="event-user">
+            {{ event.user || 'Sconosciuto' }}
+          </div>
+
+          <div class="record-body">
+
+            <div class="record-main">
+              <div class="record-title">
+                {{ event.title }}
+              </div>
+
+              <div class="record-desc">
+                {{ event.description || 'Nessuna descrizione' }}
+              </div>
+            </div>
+
+            <div class="actions">
+              <button mat-icon-button color="primary" (click)="editEvent(event)">
+                <i class="material-icons">edit</i>
+              </button>
+
+              <button mat-icon-button color="warn" (click)="deleteEvent(event)">
+                <i class="material-icons">delete</i>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- EMPTY -->
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          <div>Nessun evento per questa data</div>
+        </div>
+      </ng-template>
+
+    </div>
+
+  </div>
+
+</div>

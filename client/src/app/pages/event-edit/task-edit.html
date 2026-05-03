@@ -1,0 +1,74 @@
+<form class="form" [formGroup]="eventForm">
+
+  <div class="form-header">
+    <div class="form-title">{{taskId ? 'Modifica evento' : 'Nuovo evento'}}</div>
+    <div class="form-subtitle">Compila i dettagli</div>
+  </div>
+
+  <div class="form-grid">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nome evento</mat-label>
+      <input matInput formControlName="Title" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Data</mat-label>
+
+      <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="due_date"
+      />
+
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Ora</mat-label>
+      <input matInput type="time" formControlName="due_time">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descrizione</mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Assegnato a</mat-label>
+      <mat-select formControlName="user_id">
+        <mat-option *ngFor="let user of usersLst" [value]="user.id">
+          {{ user.username }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Azienda</mat-label>
+      <input matInput formControlName="company_id" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Contatto</mat-label>
+      <input matInput formControlName="contact_id" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Stato</mat-label>
+      <mat-select formControlName="status_id">
+        <mat-option *ngFor="let status of taskStatusesLst" [value]="status.id">
+          {{ status.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+  <div class="form-actions">
+    <button mat-button class="btn-ghost" (click)="cancel()">Annulla</button>
+    <button mat-flat-button class="btn-primary" (click)="save()">Salva</button>
+  </div>
+
+</form>
