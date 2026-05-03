@@ -37,7 +37,7 @@ export class LoginComponent {
       next: (authResponse: any) => {
         this.auth.saveToken(authResponse);
 
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/task-list']);
       },
       error: (err: any) => {
         console.error('Errore login', err);

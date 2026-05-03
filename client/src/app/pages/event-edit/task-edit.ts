@@ -81,7 +81,7 @@ export class TaskEditComponent implements OnInit {
   }
 
   cancel() {
-    this.Router.navigate(['/dashboard']);
+    this.Router.navigate(['/task-list']);
   }
 
   save() {
@@ -113,12 +113,12 @@ export class TaskEditComponent implements OnInit {
       if (this.taskId) {
         this.taskService.update(payload).subscribe(() => {
           this.notification.success('Evento aggiornato con successo');
-          this.Router.navigate(['/dashboard']);
+          this.Router.navigate(['/task-list']);
         });
       } else {
         this.taskService.save(payload).subscribe(() => {
           this.notification.success('Evento creato con successo');
-          this.Router.navigate(['/dashboard']);
+          this.Router.navigate(['/task-list']);
         });
       }
     }

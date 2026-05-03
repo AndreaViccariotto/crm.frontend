@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -52,7 +52,8 @@ export class TaskListComponent implements OnInit {
     private taskService: TasksService,
     private userService: UserService,
     private confirmElimination: ConfirmElimination,
-    private notification: Notification
+    private notification: Notification,
+    private cdr: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
@@ -94,15 +95,14 @@ export class TaskListComponent implements OnInit {
     const userId = this.filterForm.value.user_id ?? 0;
 
     this.events = this.allEvents.filter(event => {
-
       const matchUser = userId === 0 || event.user_id === userId;
-
-      const matchDate =
-        event.date.toDateString() === this.selectedDate.toDateString();
-
+      const matchDate = event.date.toDateString() === this.selectedDate.toDateString();
       return matchUser && matchDate;
     });
+
+    this.cdr.detectChanges();
   }
+
 
   onDateChange(date: Date): void {
     this.selectedDate = date;

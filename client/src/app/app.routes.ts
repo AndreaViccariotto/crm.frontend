@@ -11,13 +11,13 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'task', component: TaskListComponent },
+      { path: 'task-list', component: TaskListComponent },
       { path: 'add-task', component: TaskEditComponent },
       { path: 'add-task/:id', component: TaskEditComponent }
     ]
   },
 
-  { path: '', redirectTo: 'task', pathMatch: 'full' },
+  { path: '', redirectTo: 'task-list', pathMatch: 'full' },
   { path: 'add-task', redirectTo: 'add-task', pathMatch: 'full' },
 
   { path: '**', redirectTo: 'login' }
