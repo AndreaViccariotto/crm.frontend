@@ -11,6 +11,9 @@ export interface TaskDto {
   due_time?: string | null;
   user_id: number;
   status_id: number;
+  company_id?: number | null;
+  contact_id?: number | null;
+  completed: boolean;
 }
 
 export interface TaskRequest {
@@ -51,6 +54,14 @@ export class TasksService {
     );
   }
 
+  getByCompanyId(companyId: number) {
+    const headers = this.apiHelper.getAuthorizationHeader();
+    return this.httpClient.get<TaskDto[]>(
+      `${this.apiHelper.apiUrl}/task/getByCompanyId`,
+      { params: { companyId }, headers }
+    );
+  }
+
   save(taskRequest: TaskRequest) {
     const headers = this.apiHelper.getAuthorizationHeader();
 
@@ -63,7 +74,10 @@ export class TasksService {
     return this.httpClient.post<TaskDto>(
       `${this.apiHelper.apiUrl}/task/save`,
       payload,
-      { headers }
+      { 
+        headers,
+        responseType: 'text' as 'json'
+      }
     );
   }
 
@@ -77,7 +91,10 @@ export class TasksService {
     return this.httpClient.post<TaskDto>(
       `${this.apiHelper.apiUrl}/task/update`,
       payload,
-      { headers }
+      {
+        headers,
+        responseType: 'text' as 'json'
+      }
     );
   }
 
@@ -85,7 +102,11 @@ export class TasksService {
     const headers = this.apiHelper.getAuthorizationHeader();
     return this.httpClient.delete(
       `${this.apiHelper.apiUrl}/task/delete`,
-      { params: { id }, headers }
+      { 
+        params: { id },
+        headers,
+        responseType: 'text' as 'json'
+      }
     );
   }
 

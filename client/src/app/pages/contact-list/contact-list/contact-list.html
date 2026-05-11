@@ -1,0 +1,159 @@
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div class="page-title">
+      <h2>Contatti</h2>
+      <p>Gestione contatti CRM</p>
+    </div>
+
+    <button
+      mat-flat-button
+      class="btn btn-primary"
+      (click)="addContact()">
+
+      + Nuovo contatto
+
+    </button>
+
+  </div>
+
+  <!-- FILTER -->
+  <form class="toolbar" [formGroup]="filterForm">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+
+      <input
+        matInput
+        formControlName="name"
+        placeholder="Filtra per nome">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Azienda</mat-label>
+      <mat-select formControlName="company_id" (valueChange)="applyFilter()">
+
+        <mat-option [value]="">
+          Tutte le aziende
+        </mat-option>
+
+        <mat-option *ngFor="let company of companiesLst" [value]="company.id">
+          {{ company.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="toolbar-actions">
+
+    <button
+      type="button"
+      mat-flat-button
+      class="btn btn-primary"
+      (click)="applyFilter()">
+
+        Filtra
+
+      </button>
+
+    <button
+      type="button"
+      mat-stroked-button
+      class="btn btn-ghost"
+      (click)="resetFilter()">
+
+        Reset
+
+      </button>
+
+    </div>
+
+  </form>
+
+  <!-- CONTENT -->
+  <div class="page-content">
+
+    <div class="card panel">
+
+      <div *ngIf="contacts.length > 0; else emptyState"
+           class="entity-list">
+
+        <div *ngFor="let contact of contacts"
+             class="entity-card">
+
+          <div class="entity-body">
+
+            <div class="entity-main">
+
+              <div class="entity-title">
+                {{ contact.name }}
+              </div>
+
+              <div class="entity-subtitle">
+                {{ contact.email }}
+              </div>
+
+              <div class="entity-description" (click)="viewCompany(contact.company_id)">
+                {{ contact.company_name }}
+              </div>
+
+            </div>
+
+            <div class="entity-actions">
+
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="editContact(contact)">
+
+                <i class="material-icons">edit</i>
+
+              </button>
+
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="deleteContact(contact)">
+
+                <i class="material-icons">delete</i>
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <mat-paginator
+        [length]="filteredContacts.length"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        [pageSizeOptions]="[5, 10, 25, 50]"
+        (page)="onPageChange($event)">
+      </mat-paginator>
+
+      <ng-template #emptyState>
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            📭
+          </div>
+
+          <div>
+            Nessun contatto registrato
+          </div>
+
+        </div>
+
+      </ng-template>
+
+    </div>
+
+  </div>
+
+</div>

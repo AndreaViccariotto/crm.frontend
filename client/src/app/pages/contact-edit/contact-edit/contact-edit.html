@@ -1,0 +1,72 @@
+<form class="form-shell" [formGroup]="editForm">
+
+  <div class="form-header">
+    <div>
+      <h2 class="form-title">
+        {{ contactId ? 'Modifica contatto' : 'Nuovo contatto' }}
+      </h2>
+
+      <p class="form-subtitle">
+        Gestisci le informazioni del contatto
+      </p>
+    </div>
+  </div>
+
+  <div class="form-section">
+
+    <div class="section-title">
+      Informazioni generali
+    </div>
+
+    <div class="field-row">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome contatto</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telefono</mat-label>
+        <input matInput formControlName="phone" />
+      </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Azienda</mat-label>
+      <mat-select formControlName="company_id">
+        <mat-option *ngFor="let company of companiesLst" [value]="company.id">
+          {{ company.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    </div>
+
+  </div>
+
+  <div class="form-actions">
+    <button
+      type="button"
+      mat-button
+      class="btn btn-ghost"
+      (click)="cancel()">
+
+      Annulla
+    </button>
+
+    <button
+      type="button"
+      mat-flat-button
+      class="btn btn-primary"
+      (click)="save()">
+
+      Salva azienda
+    </button>
+  </div>
+
+</form>

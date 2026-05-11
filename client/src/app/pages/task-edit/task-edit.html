@@ -47,12 +47,20 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Azienda</mat-label>
-      <input matInput formControlName="company_id" />
+      <mat-select formControlName="company_id" (selectionChange)="OnCompanySelected()">
+        <mat-option *ngFor="let company of companiesLst" [value]="company.id">
+          {{ company.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Contatto</mat-label>
-      <input matInput formControlName="contact_id" />
+      <mat-select formControlName="contact_id">
+        <mat-option *ngFor="let contact of contactsLst" [value]="contact.id">
+          {{ contact.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline">

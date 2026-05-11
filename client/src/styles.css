@@ -86,6 +86,515 @@ body {
 }
 
 /* =========================
+   CRUD PAGE SYSTEM
+========================= */
+
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.page-title h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.page-title p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* =========================
+   CONTENT LAYOUT
+========================= */
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* =========================
+   ENTITY LIST SYSTEM
+========================= */
+
+.entity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.entity-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+
+  padding: 16px;
+
+  transition:
+    border-color .15s ease,
+    transform .15s ease,
+    background .15s ease;
+}
+
+.entity-card:hover {
+  border-color: var(--border-strong);
+  background: rgba(255,255,255,0.03);
+  transform: translateY(-1px);
+}
+
+.entity-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.entity-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.entity-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.entity-subtitle {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.entity-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.entity-badge {
+  background: var(--primary-weak);
+  color: #c8bbff;
+
+  border: 1px solid rgba(124,92,255,0.25);
+
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.entity-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-state {
+  min-height: 220px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 12px;
+
+  border: 1px dashed var(--border);
+  border-radius: var(--r-md);
+
+  color: var(--muted);
+
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 42px;
+  opacity: 0.8;
+}
+
+/* =========================
+   TOOLBAR IMPROVED
+========================= */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16px;
+
+  padding: 16px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.02),
+    rgba(255,255,255,0.01)
+  );
+
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.toolbar .mat-mdc-form-field {
+  min-width: 220px;
+  flex: 1;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-left: auto;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+  .page-header {
+    flex-direction: column;
+  }
+
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .toolbar-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .toolbar-actions button {
+    flex: 1;
+  }
+
+  .entity-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .entity-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+}
+
+/* =========================================
+   FORM SHELL
+========================================= */
+
+.form-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.02),
+      rgba(255,255,255,0.01)
+    );
+
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+
+  padding: 28px;
+
+  box-shadow: var(--shadow);
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.form-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.form-subtitle {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* =========================================
+   FORM SECTION
+========================================= */
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  padding: 20px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+
+  background: rgba(255,255,255,0.015);
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+/* =========================================
+   GRID
+========================================= */
+
+.field-row {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(240px, 1fr));
+
+  gap: 18px;
+}
+
+.field-full {
+  grid-column: 1 / -1;
+}
+
+/* =========================================
+   MATERIAL FIELD
+========================================= */
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+/* wrapper */
+
+.mat-mdc-text-field-wrapper {
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.03),
+      rgba(255,255,255,0.015)
+    ) !important;
+
+  border-radius: var(--r-md) !important;
+
+  border: 1px solid var(--border) !important;
+
+  transition:
+    border-color .15s ease,
+    box-shadow .15s ease,
+    background .15s ease !important;
+}
+
+/* hover */
+
+.mat-mdc-form-field:hover .mat-mdc-text-field-wrapper {
+  border-color: var(--border-strong) !important;
+}
+
+/* focus */
+
+.mat-focused .mat-mdc-text-field-wrapper {
+
+  border-color: var(--primary) !important;
+
+  box-shadow:
+    0 0 0 3px rgba(124,92,255,0.15);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.04),
+      rgba(255,255,255,0.02)
+    ) !important;
+}
+
+/* remove ugly outline */
+
+.mdc-notched-outline__leading,
+.mdc-notched-outline__notch,
+.mdc-notched-outline__trailing {
+  border: none !important;
+}
+
+/* label */
+
+.mat-mdc-floating-label {
+  color: var(--muted) !important;
+  font-weight: 500;
+}
+
+/* input */
+
+.mdc-text-field__input {
+  color: var(--text) !important;
+  caret-color: var(--primary) !important;
+}
+
+/* placeholder */
+
+.mdc-text-field__input::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+/* =========================================
+   INVALID STATE
+========================================= */
+
+.mat-mdc-form-field.mat-form-field-invalid
+.mat-mdc-text-field-wrapper {
+
+  border-color: var(--danger) !important;
+
+  box-shadow:
+    0 0 0 3px rgba(255,77,79,0.12);
+}
+
+/* error text */
+
+.mat-mdc-form-field-error {
+  color: #ff7b7d !important;
+  font-size: 12px;
+}
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 12px;
+
+  padding-top: 12px;
+
+  border-top: 1px solid var(--border);
+}
+
+/* =========================================
+   BUTTON IMPROVEMENTS
+========================================= */
+
+.btn {
+  height: 42px;
+  min-width: 120px;
+
+  padding-inline: 18px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-primary {
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c5cff,
+      #6f4cff
+    ) !important;
+
+  border: none !important;
+
+  box-shadow:
+    0 10px 24px rgba(124,92,255,0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+
+  background: transparent !important;
+
+  border: 1px solid var(--border) !important;
+
+  color: var(--muted) !important;
+}
+
+.btn-ghost:hover {
+
+  background:
+    rgba(255,255,255,0.04) !important;
+
+  color: var(--text) !important;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .form-shell {
+    padding: 18px;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}
+
+/* =========================
    CARDS (CAMBIA DAVVERO LOOK)
 ========================= */
 .card {
@@ -366,4 +875,135 @@ input, textarea {
 .mdc-dialog__content {
   color: var(--muted) !important;
   margin-top: 8px;
+}
+
+/* =========================================
+   SECTION HEADER
+========================================= */
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.section-description {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* =========================================
+   SMALL BUTTON
+========================================= */
+
+.btn-sm {
+  min-width: unset;
+  height: 38px;
+  padding-inline: 14px;
+  font-size: 13px;
+}
+
+/* =========================================
+   CONTACT LIST
+========================================= */
+
+.entity-card {
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.025),
+      rgba(255,255,255,0.015)
+    );
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--r-md);
+
+  transition:
+    border-color .15s ease,
+    background .15s ease,
+    transform .15s ease;
+}
+
+.entity-card:hover {
+
+  border-color: var(--border-strong);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.04),
+      rgba(255,255,255,0.025)
+    );
+
+  transform: translateY(-1px);
+}
+
+.entity-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.entity-actions button {
+
+  color: var(--muted);
+
+  transition:
+    color .15s ease,
+    background .15s ease;
+}
+
+.entity-actions button:hover {
+
+  color: var(--text);
+
+  background:
+    rgba(255,255,255,0.05);
+}
+
+/* =========================================
+   EMPTY STATE COMPACT
+========================================= */
+
+.empty-state.compact {
+  min-height: 160px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .section-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .section-header button {
+    width: 100%;
+  }
+
+}
+
+.mat-mdc-paginator {
+  background: var(--panel) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 8px;
+  color: var(--text) !important;
+}
+
+.mat-mdc-paginator .mat-mdc-icon-button {
+  color: var(--text) !important;
+}
+
+.mat-mdc-paginator .mat-mdc-paginator-icon {
+  fill: var(--text) !important;
 }

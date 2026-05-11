@@ -1,0 +1,141 @@
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div class="page-title">
+      <h2>Aziende</h2>
+      <p>Gestione aziende CRM</p>
+    </div>
+
+    <button
+      mat-flat-button
+      class="btn btn-primary"
+      (click)="addCompany()">
+
+      + Nuova azienda
+
+    </button>
+
+  </div>
+
+  <!-- FILTER -->
+  <form class="toolbar" [formGroup]="filterForm">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+
+      <input
+        matInput
+        formControlName="name"
+        placeholder="Filtra per nome">
+    </mat-form-field>
+
+    <div class="toolbar-actions">
+
+    <button
+      type="button"
+      mat-flat-button
+      class="btn btn-primary"
+      (click)="applyFilter()">
+
+        Filtra
+
+      </button>
+
+    <button
+      type="button"
+      mat-stroked-button
+      class="btn btn-ghost"
+      (click)="resetFilter()">
+
+        Reset
+
+      </button>
+
+    </div>
+
+  </form>
+
+  <!-- CONTENT -->
+  <div class="page-content">
+
+    <div class="card panel">
+
+      <div *ngIf="companies.length > 0; else emptyState"
+           class="entity-list">
+
+        <div *ngFor="let company of companies"
+             class="entity-card">
+
+          <div class="entity-body">
+
+            <div class="entity-main">
+
+              <div class="entity-title">
+                {{ company.name }}
+              </div>
+
+              <div class="entity-subtitle">
+                {{ company.email }}
+              </div>
+
+            </div>
+
+            <div class="entity-actions">
+
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="editCompany(company)">
+
+                <i class="material-icons">edit</i>
+
+              </button>
+
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="deleteCompany(company)">
+
+                <i class="material-icons">delete</i>
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <mat-paginator
+        [length]="filteredCompanies.length"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        [pageSizeOptions]="[5, 10, 25, 50]"
+        (page)="onPageChange($event)">
+      </mat-paginator>
+
+      <ng-template #emptyState>
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            📭
+          </div>
+
+          <div>
+            Nessuna azienda registrata
+          </div>
+
+        </div>
+
+      </ng-template>
+
+    </div>
+
+  </div>
+
+</div>

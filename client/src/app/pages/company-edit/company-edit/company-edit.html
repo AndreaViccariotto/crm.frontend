@@ -1,0 +1,270 @@
+<form class="form-shell" [formGroup]="editForm">
+
+  <!-- HEADER -->
+  <div class="form-header">
+
+    <div>
+      <h2 class="form-title">
+        {{ companyId ? 'Modifica azienda' : 'Nuova azienda' }}
+      </h2>
+
+      <p class="form-subtitle">
+        Gestisci le informazioni aziendali
+      </p>
+    </div>
+
+  </div>
+
+  <div class="form-section">
+
+    <div class="section-title">
+      Informazioni generali
+    </div>
+
+    <div class="field-row">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome azienda</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Partita IVA</mat-label>
+        <input matInput formControlName="vat_number" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telefono</mat-label>
+        <input matInput formControlName="phone" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="field-full">
+        <mat-label>Indirizzo</mat-label>
+        <input matInput formControlName="address" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Città</mat-label>
+        <input matInput formControlName="city" />
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+  <!-- TASKS -->
+  <div class="form-section">
+
+    <div class="section-header">
+
+      <div>
+        <div class="section-title">
+          Attività collegate
+        </div>
+
+        <div class="section-description">
+          Attività associate a questa azienda
+        </div>
+      </div>
+
+      <button
+        type="button"
+        mat-flat-button
+        class="btn btn-primary btn-sm"
+        (click)="addTask()">
+
+        + Nuova attività
+      </button>
+
+    </div>
+
+    <!-- EMPTY -->
+    <div
+      *ngIf="!tasksLst?.length"
+      class="empty-state compact">
+
+      <div class="empty-icon">
+        �
+      </div>
+
+      <div>
+        Nessuna attività associata
+      </div>
+
+    </div>
+
+    <!-- LIST -->
+    <div
+      *ngIf="tasksLst?.length"
+      class="entity-list">
+
+      <div
+        *ngFor="let task of tasksLst"
+        class="entity-card">
+
+        <div class="entity-body">
+
+          <div class="entity-main">
+
+            <div class="entity-title">
+              {{ task.title }}
+            </div>
+
+            <div class="entity-meta">
+
+              <span
+                class="entity-subtitle"
+                *ngIf="task.description">
+
+                {{ task.description }}
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="entity-actions">
+
+            <button
+              mat-icon-button
+              (click)="viewTask(task)">
+
+              <mat-icon>edit</mat-icon>
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CONTATTI -->
+  <div class="form-section">
+
+    <div class="section-header">
+
+      <div>
+        <div class="section-title">
+          Contatti collegati
+        </div>
+
+        <div class="section-description">
+          Persone associate a questa azienda
+        </div>
+      </div>
+
+      <button
+        type="button"
+        mat-flat-button
+        class="btn btn-primary btn-sm"
+        (click)="addTask()">
+
+        + Nuova attività
+      </button>
+
+    </div>
+
+    <!-- EMPTY -->
+    <div
+      *ngIf="!contactLst?.length"
+      class="empty-state compact">
+
+      <div class="empty-icon">
+        👤
+      </div>
+
+      <div>
+        Nessun contatto associato
+      </div>
+
+    </div>
+
+    <!-- LIST -->
+    <div
+      *ngIf="contactLst?.length"
+      class="entity-list">
+
+      <div
+        *ngFor="let contact of contactLst"
+        class="entity-card">
+
+        <div class="entity-body">
+
+          <div class="entity-main">
+
+            <div class="entity-title">
+              {{ contact.name }}
+            </div>
+
+            <div class="entity-meta">
+
+              <span
+                class="entity-subtitle"
+                *ngIf="contact.email">
+
+                {{ contact.email }}
+              </span>
+
+              <span
+                class="entity-subtitle"
+                *ngIf="contact.phone">
+
+                • {{ contact.phone }}
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="entity-actions">
+
+            <button
+              mat-icon-button
+              (click)="viewContact(contact.id)">
+
+              <mat-icon>edit</mat-icon>
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="form-actions">
+
+    <button
+      type="button"
+      mat-button
+      class="btn btn-ghost"
+      (click)="cancel()">
+
+      Annulla
+    </button>
+
+    <button
+      type="button"
+      mat-flat-button
+      class="btn btn-primary"
+      (click)="save()">
+
+      Salva azienda
+    </button>
+
+  </div>
+
+</form>
