@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormField, MatFormFieldModule, MatLabel } from "@angular/material/form-field";
@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { MatIcon } from "@angular/material/icon";
 import { TaskDto, TasksService } from '../../../services/tasks';
 import { stat } from 'fs';
+import { FileDto, FileService } from '../../../services/file';
 
 @Component({
   selector: 'app-company-edit',
@@ -32,6 +33,8 @@ export class CompanyEditComponent implements OnInit {
   usersLst: CompaniesDto[] = [];
   contactLst: ContactsDto[] = [];
   tasksLst: TaskDto[] = [];
+  filesLst: FileDto[] = [];
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private Router: Router,
@@ -41,7 +44,8 @@ export class CompanyEditComponent implements OnInit {
     private notification: Notification,
     private contactService: Contacts,
     private cdr: ChangeDetectorRef,
-    private taskService: TasksService
+    private taskService: TasksService,
+    private fileService: FileService
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +79,11 @@ export class CompanyEditComponent implements OnInit {
 
       this.taskService.getByCompanyId(this.companyId).subscribe(tasks => {
         this.tasksLst = tasks;
+        this.cdr.detectChanges();
+      });
+
+      this.fileService.getByCompanyId(this.companyId).subscribe(files => {
+        this.filesLst = files;
         this.cdr.detectChanges();
       });
     }
@@ -152,5 +161,93 @@ export class CompanyEditComponent implements OnInit {
         this.Router.navigate(['/add-task/', event.id, { company_id: this.companyId }], {
       state: { event }
     });
+  }
+
+  onFileSelected(event: Event) {
+
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    const file = input.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+      const base64 = (reader.result as string).split(',')[1];
+
+      const payload = {
+        file_name: file.name,
+        content: base64,
+        entity_name: 'Companies',
+        entity_id: this.companyId || 0,
+        uploaded_by: Number(localStorage.getItem('id')) || 0
+      };
+
+      this.fileService.uploadFile(payload).subscribe(() => {
+
+        this.notification.success(
+          'File caricato con successo'
+        );
+
+        this.fileService
+          .getByCompanyId(this.companyId || 0)
+          .subscribe(files => {
+
+            this.filesLst = files;
+
+            this.cdr.detectChanges();
+          });
+
+      });
+
+    };
+
+    reader.readAsDataURL(file);
+
+    input.value = '';
+  }
+
+  downloadFile(fileId: number) {
+
+    this.fileService.downloadFile(fileId).subscribe(file => {
+
+      const byteCharacters = atob(file.content);
+
+      const byteNumbers = new Array(byteCharacters.length);
+
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+
+      const blob = new Blob([byteArray]);
+
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+
+      a.href = url;
+      a.download = file.file_name;
+
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+  deleteFile(fileId: number) {
+    if (confirm('Sei sicuro di voler eliminare questo file?')) {
+      this.fileService.deleteFile(fileId).subscribe(() => {
+        this.notification.success('File eliminato con successo');
+        this.fileService.getByCompanyId(this.companyId || 0).subscribe(files => {
+          this.filesLst = files;
+        });
+      });
+    }
   }
 }

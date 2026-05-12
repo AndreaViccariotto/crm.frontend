@@ -166,9 +166,9 @@
         type="button"
         mat-flat-button
         class="btn btn-primary btn-sm"
-        (click)="addTask()">
+        (click)="addContact()">
 
-        + Nuova attività
+        + Nuovo contatto
       </button>
 
     </div>
@@ -234,6 +234,96 @@
               <mat-icon>edit</mat-icon>
             </button>
 
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FILES -->
+  <div class="form-section">
+
+    <div class="section-header">
+
+      <div>
+        <div class="section-title">
+          File allegati
+        </div>
+
+        <div class="section-description">
+          File associati a questa azienda
+        </div>
+      </div>
+
+      <button
+        type="button"
+        mat-flat-button
+        class="btn btn-primary btn-sm"
+        (click)="fileInput.click()">
+
+        + Nuovo file
+      </button>
+
+      <input
+        type="file"
+        #fileInput
+        hidden
+        (change)="onFileSelected($event)" />
+    </div>
+
+    <!-- EMPTY -->
+    <div
+      *ngIf="!filesLst?.length"
+      class="empty-state compact">
+
+      <div class="empty-icon">
+        📎
+      </div>
+
+      <div>
+        Nessun file allegato
+      </div>
+
+    </div>
+
+    <!-- LIST -->
+    <div
+      *ngIf="filesLst?.length"
+      class="entity-list">
+
+      <div
+        *ngFor="let file of filesLst"
+        class="entity-card">
+
+        <div class="entity-body">
+
+          <div class="entity-main">
+
+            <div class="entity-title">
+              {{ file.file_name }}
+            </div>
+
+          </div>
+
+          <div class="entity-actions">
+
+            <button
+              mat-icon-button
+              (click)="downloadFile(file.id)">
+
+              <mat-icon>download</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              (click)="deleteFile(file.id)">
+
+              <mat-icon>delete</mat-icon>
+            </button>
           </div>
 
         </div>
