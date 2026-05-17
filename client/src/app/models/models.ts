@@ -21,4 +21,7 @@ export interface CalendarEventVM {
   time: string;
   user: string;
   user_id: number;
+  status_id: number;
+  status_name: string;
+  status_class: string;
 }

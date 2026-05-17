@@ -150,3 +150,67 @@
   font-size: 34px;
   margin-bottom: 8px;
 }
+
+/* =========================
+   STATUS BADGE
+========================= */
+.status-badge {
+  width: fit-content;
+
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  margin-bottom: 8px;
+
+  border: 1px solid transparent;
+}
+
+/* =========================
+   STATUS COLORS
+========================= */
+
+/* Da pianificare */
+.status-planned {
+  border-left: 4px solid #64748b;
+}
+
+.status-planned .status-badge {
+  background: rgba(100, 116, 139, 0.15);
+  color: #cbd5e1;
+  border-color: rgba(100, 116, 139, 0.4);
+}
+
+/* In corso */
+.status-progress {
+  border-left: 4px solid #3b82f6;
+}
+
+.status-progress .status-badge {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* Conclusa */
+.status-done {
+  border-left: 4px solid #10b981;
+}
+
+.status-done .status-badge {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+/* Default */
+.status-default {
+  border-left: 4px solid var(--border);
+}
+
+.status-default .status-badge {
+  background: rgba(255,255,255,0.05);
+  color: var(--muted);
+}

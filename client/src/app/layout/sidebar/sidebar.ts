@@ -17,6 +17,8 @@ export class SidebarComponent implements OnInit {
   menu: any[] = [];
   isOpen = false;
 
+  openedDropdown: string | null = null;
+
   constructor(private menuService: MenuService) {}
 
   ngOnInit() {
@@ -27,5 +29,10 @@ export class SidebarComponent implements OnInit {
     this.isOpen = !this.isOpen;
 
     this.toggle.emit(this.isOpen);
+  }
+
+  toggleDropdown(name: string) {
+    this.openedDropdown =
+      this.openedDropdown === name ? null : name;
   }
 }

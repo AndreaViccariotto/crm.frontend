@@ -16,6 +16,8 @@ import { GeneralHelper } from '../../shared/helpers/GeneralHelper';
 import { Notification } from '../../shared/services/notification';
 import { Companies, CompaniesDto } from '../../services/companies';
 import { Contacts, ContactsDto } from '../../services/contacts';
+import { FileDto, FileService } from '../../services/file';
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-task-edit',
@@ -30,8 +32,9 @@ import { Contacts, ContactsDto } from '../../services/contacts';
     MatSelectModule,
     MatLabel,
     MatDatepickerModule,
-    MatNativeDateModule
-  ],
+    MatNativeDateModule,
+    MatIcon
+],
   templateUrl: './task-edit.html',
   styleUrl: './task-edit.css',
 })
@@ -51,6 +54,8 @@ export class TaskEditComponent implements OnInit {
 
   contactsLst: ContactsDto[] = [];
 
+  filesLst: FileDto[] = [];
+
   constructor(
     private router: Router,
     private userService: UserService,
@@ -60,7 +65,8 @@ export class TaskEditComponent implements OnInit {
     private contactsService: Contacts,
     private generalHelper: GeneralHelper,
     private notification: Notification,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private fileService: FileService
   ) {}
 
   ngOnInit(): void {
@@ -137,6 +143,11 @@ export class TaskEditComponent implements OnInit {
     if (this.companyId) {
       this.filterContacts(this.companyId);
     }
+
+    this.fileService.getBytaskId(this.taskId || 0).subscribe(files => {
+      this.filesLst = files;
+      this.cdr.detectChanges();
+    });
   }
 
   cancel() {
@@ -200,5 +211,93 @@ export class TaskEditComponent implements OnInit {
     );
     this.cdr.detectChanges();
     console.log(this.contactsLst);
+  }
+
+    onFileSelected(event: Event) {
+
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    const file = input.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+      const base64 = (reader.result as string).split(',')[1];
+
+      const payload = {
+        file_name: file.name,
+        content: base64,
+        entity_name: 'Tasks',
+        entity_id: this.taskId || 0,
+        uploaded_by: Number(localStorage.getItem('id')) || 0
+      };
+
+      this.fileService.uploadFile(payload).subscribe(() => {
+
+        this.notification.success(
+          'File caricato con successo'
+        );
+
+        this.fileService
+          .getBytaskId(this.taskId || 0)
+          .subscribe(files => {
+
+            this.filesLst = files;
+
+            this.cdr.detectChanges();
+          });
+
+      });
+
+    };
+
+    reader.readAsDataURL(file);
+
+    input.value = '';
+  }
+
+  downloadFile(fileId: number) {
+
+    this.fileService.downloadFile(fileId).subscribe(file => {
+
+      const byteCharacters = atob(file.content);
+
+      const byteNumbers = new Array(byteCharacters.length);
+
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+
+      const blob = new Blob([byteArray]);
+
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+
+      a.href = url;
+      a.download = file.file_name;
+
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+  deleteFile(fileId: number) {
+    if (confirm('Sei sicuro di voler eliminare questo file?')) {
+      this.fileService.deleteFile(fileId).subscribe(() => {
+        this.notification.success('File eliminato con successo');
+        this.fileService.getBytaskId(this.taskId || 0).subscribe(files => {
+          this.filesLst = files;
+        });
+      });
+    }
   }
 }

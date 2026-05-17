@@ -74,3 +74,54 @@
   font-size: 20px;
   cursor: pointer;
 }
+
+/* Dropdown toggle */
+.dropdown-toggle {
+  cursor: pointer;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Left side */
+.dropdown-toggle .left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Submenu */
+.submenu {
+  display: flex;
+  flex-direction: column;
+
+  margin-left: 12px;
+  margin-top: 4px;
+
+  max-height: 200px;
+  overflow-y: auto;
+
+  padding-right: 4px;
+}
+
+/* Scrollbar custom */
+.submenu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.submenu::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 10px;
+}
+
+/* Submenu item */
+.submenu-item {
+  font-size: 14px;
+  padding-left: 14px !important;
+
+  opacity: 0.9;
+}
+
+/* Hover submenu */
+.submenu-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}

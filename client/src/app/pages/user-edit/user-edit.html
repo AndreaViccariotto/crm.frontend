@@ -1,0 +1,83 @@
+<form class="form-shell" [formGroup]="editForm">
+
+  <!-- HEADER -->
+  <div class="form-header">
+
+    <div>
+      <h2 class="form-title">
+        {{ userId ? 'Modifica utente' : 'Nuovo utente' }}
+      </h2>
+
+      <p class="form-subtitle">
+        Gestisci le informazioni utente
+      </p>
+    </div>
+
+  </div>
+
+  <div class="form-section">
+
+    <div class="section-title">
+      Informazioni generali
+    </div>
+
+    <div class="field-row">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome utente</mat-label>
+        <input matInput formControlName="username" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Conferma Password</mat-label>
+        <input matInput formControlName="password_confirmation" type="password" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Ruolo</mat-label>
+        <mat-select formControlName="role">
+          <mat-option *ngFor="let role of rolesLst" [value]="role.id">
+            {{ role.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+
+  <!-- ACTIONS -->
+  <div class="form-actions">
+
+    <button
+      type="button"
+      mat-button
+      class="btn btn-ghost"
+      (click)="cancel()">
+
+      Annulla
+    </button>
+
+    <button
+      type="button"
+      mat-flat-button
+      class="btn btn-primary"
+      (click)="save()">
+
+      Salva azienda
+    </button>
+
+  </div>
+
+</form>

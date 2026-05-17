@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Companies, CompaniesDto } from '../../../services/companies';
+import { Companies, CompaniesDto } from '../../services/companies';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { ConfirmElimination } from '../../../shared/services/confirm-elimination';
+import { ConfirmElimination } from '../../shared/services/confirm-elimination';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({

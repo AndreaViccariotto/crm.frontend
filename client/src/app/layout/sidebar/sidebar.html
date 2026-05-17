@@ -1,10 +1,69 @@
 <div class="sidebar" [class.open]="isOpen">
-  <button class="hamburger" (click)="toggleSidebar()">☰</button>
+
+  <button class="hamburger" (click)="toggleSidebar()">
+    ☰
+  </button>
 
   <nav class="menu">
-    <a *ngFor="let item of menu" [routerLink]="item.route">
-      <i [ngClass]="item.icon"></i>
-      <span *ngIf="isOpen">{{ item.name }}</span>
-    </a>
+
+    <div *ngFor="let item of menu">
+
+      <!-- Link normale -->
+      <a
+        *ngIf="!item.children"
+        [routerLink]="item.route"
+      >
+        <i [ngClass]="item.icon"></i>
+
+        <span *ngIf="isOpen">
+          {{ item.name }}
+        </span>
+      </a>
+
+      <!-- Dropdown -->
+      <div *ngIf="item.children">
+
+        <a
+          class="dropdown-toggle"
+          (click)="toggleDropdown(item.name)"
+        >
+          <div class="left">
+            <i [ngClass]="item.icon"></i>
+
+            <span *ngIf="isOpen">
+              {{ item.name }}
+            </span>
+          </div>
+
+          <i
+            *ngIf="isOpen"
+            class="fa-solid"
+            [ngClass]="openedDropdown === item.name ? 'fa-chevron-up' : 'fa-chevron-down'"
+          ></i>
+        </a>
+
+        <!-- Submenu -->
+        <div
+          class="submenu"
+          *ngIf="openedDropdown === item.name && isOpen"
+        >
+          <a
+            class="submenu-item"
+            *ngFor="let child of item.children"
+            [routerLink]="child.route"
+          >
+            <i [ngClass]="child.icon"></i>
+
+            <span>
+              {{ child.name }}
+            </span>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
   </nav>
+
 </div>

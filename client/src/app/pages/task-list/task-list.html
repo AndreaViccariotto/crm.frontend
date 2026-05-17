@@ -71,7 +71,11 @@
       <!-- LIST -->
       <div *ngIf="events.length; else emptyState" class="event-list">
 
-        <div *ngFor="let event of events" class="event-card">
+        <div
+          *ngFor="let event of events"
+          class="event-card"
+          [ngClass]="event.status_class"
+        >
 
           <div class="event-time">
             {{ event.time || '--:--' }}
@@ -84,6 +88,11 @@
           <div class="record-body">
 
             <div class="record-main">
+              <div class="status-badge">
+                {{ event.status_name }}
+              </div>
+
+
               <div class="record-title">
                 {{ event.title }}
               </div>

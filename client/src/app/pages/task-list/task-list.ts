@@ -15,6 +15,7 @@ import { UserService } from '../../services/user';
 import { CalendarEventVM, User } from '../../models/models';
 import { ConfirmElimination } from '../../shared/services/confirm-elimination';
 import { Notification } from '../../shared/services/notification';
+import { TaskStatusesService } from '../../services/task-statuses';
 
 @Component({
   selector: 'app-task-list',
@@ -53,7 +54,8 @@ export class TaskListComponent implements OnInit {
     private userService: UserService,
     private confirmElimination: ConfirmElimination,
     private notification: Notification,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private taskStatusService: TaskStatusesService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
@@ -69,26 +71,66 @@ export class TaskListComponent implements OnInit {
   loadData(): void {
     forkJoin({
       users: this.userService.getUsers(),
-      tasks: this.taskService.get()
-    }).subscribe(({ users, tasks }) => {
+      tasks: this.taskService.get(),
+      statuses: this.taskStatusService.getTaskStatuses()
+    }).subscribe(({ users, tasks, statuses }) => {
 
       this.users = users;
-      this.allEvents = this.mapEvents(tasks, users);
+
+      this.allEvents = this.mapEvents(
+        tasks,
+        users,
+        statuses
+      );
 
       this.applyFilters();
     });
   }
 
-  private mapEvents(tasks: TaskDto[], users: User[]): CalendarEventVM[] {
-    return tasks.map(task => ({
-      id: task.id,
-      title: task.title,
-      description: task.description ?? '',
-      date: new Date(task.due_date),
-      time: task.due_time ?? '--:--',
-      user_id: task.user_id,
-      user: users.find(u => u.id === task.user_id)?.username ?? 'Sconosciuto'
-    }));
+  private mapEvents(
+    tasks: TaskDto[],
+    users: User[],
+    statuses: any[]
+  ): CalendarEventVM[] {
+
+    return tasks.map(task => {
+
+      const status = statuses.find(s => s.id === task.status_id);
+
+      return {
+        id: task.id,
+        title: task.title,
+        description: task.description ?? '',
+        date: new Date(task.due_date),
+        time: task.due_time ?? '--:--',
+
+        user_id: task.user_id,
+        user: users.find(u => u.id === task.user_id)?.username ?? 'Sconosciuto',
+
+        status_id: task.status_id,
+        status_name: status?.name ?? 'N/D',
+
+        status_class: this.getStatusClass(status?.name)
+      };
+    });
+  }
+
+  getStatusClass(status: string): string {
+
+    switch (status?.toLowerCase()) {
+
+      case 'da pianificare':
+        return 'status-planned';
+
+      case 'in corso':
+        return 'status-progress';
+
+      case 'conclusa':
+        return 'status-done';
+
+      default:
+        return 'status-default';
+    }
   }
 
   applyFilters(): void {

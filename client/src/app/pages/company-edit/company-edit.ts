@@ -2,17 +2,17 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, viewChild 
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormField, MatFormFieldModule, MatLabel } from "@angular/material/form-field";
-import { Companies, CompaniesDto } from '../../../services/companies';
-import { GeneralHelper } from '../../../shared/helpers/GeneralHelper';
-import { Notification } from '../../../shared/services/notification';
+import { Companies, CompaniesDto } from '../../services/companies';
+import { GeneralHelper } from '../../shared/helpers/GeneralHelper';
+import { Notification } from '../../shared/services/notification';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { Contacts, ContactsDto } from '../../../services/contacts';
+import { Contacts, ContactsDto } from '../../services/contacts';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from "@angular/material/icon";
-import { TaskDto, TasksService } from '../../../services/tasks';
+import { TaskDto, TasksService } from '../../services/tasks';
 import { stat } from 'fs';
-import { FileDto, FileService } from '../../../services/file';
+import { FileDto, FileService } from '../../services/file';
 
 @Component({
   selector: 'app-company-edit',

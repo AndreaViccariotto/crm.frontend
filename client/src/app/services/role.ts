@@ -2,34 +2,31 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, shareReplay } from 'rxjs';
 import { ApiHelper } from '../shared/services/apiHelper';
-import { ContactsDto } from './contacts';
+import { UserDto } from './user';
 
-export interface UserDto {
-  id: number;
-  username: string;
-  password: string;
-  roleId: number;
-  role: string;
-  email: string;
+export interface RoleDto {
+    id: number;
+    name: string;
+    description: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class RoleService {
 
-  private users$: Observable<UserDto[]> | null = null;
+  private roles$: Observable<RoleDto[]> | null = null;
 
-  constructor(
+    constructor(
     private http: HttpClient,
     private apiHelper: ApiHelper
   ) {}
 
-  getUsers(): Observable<UserDto[]> {
-    if (!this.users$) {
+  getRoles(): Observable<RoleDto[]> {
+    if (!this.roles$) {
       const headers = this.apiHelper.getAuthorizationHeader();
-      this.users$ = this.http
-        .get<UserDto[]>(`${this.apiHelper.apiUrl}/users/get`, {
+      this.roles$ = this.http
+        .get<RoleDto[]>(`${this.apiHelper.apiUrl}/roles/get`, {
           headers: headers ? headers : undefined
         })
         .pipe(
@@ -37,23 +34,23 @@ export class UserService {
         );
     }
 
-    return this.users$;
+    return this.roles$;
   }
 
-  getById(id: number): Observable<UserDto> {
+  getById(id: number): Observable<RoleDto> {
     const headers = this.apiHelper.getAuthorizationHeader();
-    return this.http.get<UserDto>(`${this.apiHelper.apiUrl}/users/getbyId`, {
+    return this.http.get<RoleDto>(`${this.apiHelper.apiUrl}/roles/getbyId`, {
       params: { id: id.toString() },
       headers: headers ? headers : undefined
     });
   }
   
-  save(user: Partial<UserDto>): Observable<string> {
+  save(user: Partial<RoleDto>): Observable<string> {
 
     const headers = this.apiHelper.getAuthorizationHeader();
 
     return this.http.post(
-      `${this.apiHelper.apiUrl}/users/save`,
+      `${this.apiHelper.apiUrl}/roles/save`,
       user,
       {
         headers: headers ? headers : undefined,
@@ -62,12 +59,12 @@ export class UserService {
     );
   }
   
-  update(user: Partial<UserDto>): Observable<string> {
+  update(user: Partial<RoleDto>): Observable<string> {
 
     const headers = this.apiHelper.getAuthorizationHeader();
 
     return this.http.post(
-      `${this.apiHelper.apiUrl}/users/update`,
+      `${this.apiHelper.apiUrl}/roles/update`,
       user,
       {
         headers: headers ? headers : undefined,
@@ -78,7 +75,7 @@ export class UserService {
   
   delete(id: number): Observable<string> {
     const headers = this.apiHelper.getAuthorizationHeader();
-    return this.http.delete(`${this.apiHelper.apiUrl}/users/delete`, {
+    return this.http.delete(`${this.apiHelper.apiUrl}/roles/delete`, {
       headers: headers ? headers : undefined,
       params: { id: id.toString() },
       responseType: 'text'
